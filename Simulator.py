@@ -3,6 +3,7 @@ import math
 import matplotlib.pyplot as plt
 from scipy.stats import gamma, norm, describe
 from scipy.stats.qmc import Sobol
+
 import seaborn as sns
 
 """Parameters to vary for all models
@@ -66,12 +67,12 @@ class BrownianMotion:
     
     
 class WVAGProcess:
-    def __init__(self, a, alpha, mu, theta, sigma):
+    def __init__(self, a, alpha, mu, theta, sigma_sqrt):
         self.dim = len(alpha)
         self.ag_subordinator = AGProcess(a, alpha)
         self.mu = mu.reshape(self.dim, -1) 
         self.theta = theta.reshape(self.dim, -1)
-        self.sigma = sigma
+        self.sigma_sqrt = sigma_sqrt
         
         
     def simulate(self):
@@ -84,6 +85,7 @@ class WVAGProcess:
         wg_paths = np.cumsum(wg_increments, axis=1)
         wg_paths = np.hstack((np.zeros((self.dim, 1)), wg_paths))
         
-        xt_paths = self.mu * t_values + self.theta * ag_paths + self.sigma @ wg_paths
+        xt_paths = self.mu * t_values + self.theta * ag_paths + self.sigma_sqrt @ wg_paths
         
         return xt_paths
+    

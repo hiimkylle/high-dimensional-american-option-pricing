@@ -14,14 +14,14 @@ def draw_wvag_params(d, rng=None):
     C = D @ W @ D                                 
     L = np.linalg.cholesky(np.outer(vol, vol) * C / (a + 1.0))
 
-    sigma = L                                       
+    sigma_sqrt = L                                       
     theta = rng.uniform(-0.25, 0.25, size=d)
 
     Gm = 1.0 + alpha * a                         
-    var = (sigma ** 2) @ Gm
+    var = (sigma_sqrt ** 2) @ Gm
     drift = theta * Gm
     
     mu = rng.uniform(-0.05, 0.05, size=d) - drift
 
-    return mu, a, alpha, theta, sigma
+    return mu, a, alpha, theta, sigma_sqrt
 
