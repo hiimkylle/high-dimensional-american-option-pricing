@@ -7,7 +7,6 @@ from Simulator import t_values
 import helper
 
 
-
 if __name__ == "__main__":
     sns.set_theme()
     print("Entered!")
@@ -16,11 +15,11 @@ if __name__ == "__main__":
     print("Setting dimension: " + str(d))
 
     print('Generating params')
-    mu, a, alpha, theta, sigma = helper.draw_wvag_params(d)
-    print(mu, a, alpha, theta, sigma)
+    mu, a, alpha, theta, sigma_sqrt = helper.draw_wvag_params(d)
+    print(mu, a, alpha, theta, sigma_sqrt)
 
     print("Simulating...")
-    vals = sim.WVAGProcess(a, alpha, mu, theta, sigma).simulate()
+    vals = sim.WVAGProcess(a, alpha, mu, theta, sigma_sqrt).simulate()
 
     print("Graphing")
     for i, val in enumerate(vals):
