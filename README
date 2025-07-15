@@ -1,0 +1,62 @@
+Note that:
+
+The WVAG simulator in the simulator class and the random parameter generator classes initialise with/ return sigma_sqrt (i.e. the cholesky decomposition of the covariance matrix)
+
+However, the DME calibrator returns sigma only (the covariance matrix)
+
+Note:
+Parameter Identifiability is lost
+
+DME takes in (n_points, n_dim)
+Simulator returns (n_dim, n_points)
+
+Notes on equities chosen:
+Intranational to simplify data management
+Same closing time
+Currency adjustments / Forex complications
+Holiday alignment
+
+Limitaations:
+Small Saample size ~1200
+Rather heavy regularisation for DME
+
+To Do:
+
+Look at results and see what needs changing
+Bootstrap
+DME
+
+Reorganising and improving on code
+Module/package hierarchy
+Parallelism (espcially RNG)
+
+Find a way to measure goodness of NN results
+LSM: Using numerical methods
+FFT
+Measure error with RMSE
+Economic rationality:
+K inc, V0 dec,
+T inc, V0 dec,
+sig inc, V0 inc
+
+Improve NN
+Training on better random parameters, or other methods
+Changing loss function
+
+Improve DME
+Tweak a parameter
+Get more data
+
+Results and Figures
+3D surfaces, let V0 vary wrt K and T, or sigma and T
+Heatmaps
+Scatterplot
+Histogram of prediction errors
+Boxplots of confidence intervals ?
+
+Write paper
+
+Publishing code
+README, LICENSE, gitignore, etc.
+Documentation
+Code clarity
