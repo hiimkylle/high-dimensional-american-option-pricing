@@ -2,6 +2,8 @@
 
 A quantitative finance project for calibrating multi-asset stochastic processes from market data using the **Weighted Variance-Gamma (WVAG)** process and **Distribution Moment Estimator (DME)** method.
 
+Note: This was made for the sole purpose of the research project and so is very unpolished!
+
 ---
 
 ## What This Does
@@ -17,6 +19,8 @@ This project downloads real equity data, calibrates a high-dimensional WVAG proc
 ```bash
 pip install torch numpy pandas scipy matplotlib seaborn yfinance statsmodels tqdm
 ```
+
+Sorry! Should have made a script for this...
 
 ### Run Full Pipeline
 
@@ -39,7 +43,7 @@ This will download equity data, calibrate the model, and show visualizations com
 
 ### Core Implementation
 
-- **`config.py`** - All hyperparameters, regularization settings, and data configuration
+- **`config.py`** - All result hyperparameters, regularization settings, and data configuration
 - **`wvag.py`** - WVAG stochastic process simulator (GPU-accelerated with PyTorch)
 - **`dme_main.py`** - Main calibrator that fits joint distributions
 - **`dme_marginal.py`** - Per-dimension calibrator that fits marginal distributions
@@ -49,14 +53,14 @@ This will download equity data, calibrate the model, and show visualizations com
 - **`data_scraping.py`** - Downloads equity data from Yahoo Finance
 - **`parameter_generator.py`** - Generates random WVAG parameters for testing
 - **`bootstrap.py`** - Bootstrap resampling for uncertainty quantification
-- **`utils.py`** - Error metrics and diagnostic functions
-- **`visualisation.py`** - Plotting functions for comparing distributions
+- **`utils.py`** - Error metrics and diagnostic functions for research and debugging
+- **`visualisation.py`** - Plotting functions for comparing distributions, research and debugging
 
 ---
 
 ## Configuration
 
-Edit `config.py` to customize:
+Edit `config.py` to customize some model hyperparameters.
 
 ### Data Output Files
 
@@ -98,15 +102,3 @@ Edit `config.py` to customize:
 - Walmart (`WMT`)
 
 Change symbols in `config.py` to use different equities.
-
----
-
-## License
-
-[To be added]
-
----
-
-## Author
-
-Kyle Lim
