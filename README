@@ -1,62 +1,112 @@
-Note that:
+# High-Dimensional American Option Pricing with WVAG Process
 
-The WVAG simulator in the simulator class and the random parameter generator classes initialise with/ return sigma_sqrt (i.e. the cholesky decomposition of the covariance matrix)
+A quantitative finance project for calibrating multi-asset stochastic processes from market data using the **Weighted Variance-Gamma (WVAG)** process and **Distribution Moment Estimator (DME)** method.
 
-However, the DME calibrator returns sigma only (the covariance matrix)
+---
 
-Note:
-Parameter Identifiability is lost
+## What This Does
 
-DME takes in (n_points, n_dim)
-Simulator returns (n_dim, n_points)
+This project downloads real equity data, calibrates a high-dimensional WVAG process to match the statistical properties of the data (mean, variance, skewness, kurtosis, and correlations), and simulates realistic multi-asset price paths for option pricing applications.
 
-Notes on equities chosen:
-Intranational to simplify data management
-Same closing time
-Currency adjustments / Forex complications
-Holiday alignment
+---
 
-Limitaations:
-Small Saample size ~1200
-Rather heavy regularisation for DME
+## Quick Start
 
-To Do:
+### Installation
 
-Look at results and see what needs changing
-Bootstrap
-DME
+```bash
+pip install torch numpy pandas scipy matplotlib seaborn yfinance statsmodels tqdm
+```
 
-Reorganising and improving on code
-Module/package hierarchy
-Parallelism (espcially RNG)
+### Run Full Pipeline
 
-Find a way to measure goodness of NN results
-LSM: Using numerical methods
-FFT
-Measure error with RMSE
-Economic rationality:
-K inc, V0 dec,
-T inc, V0 dec,
-sig inc, V0 inc
+```bash
+python main.py
+```
 
-Improve NN
-Training on better random parameters, or other methods
-Changing loss function
+This will download equity data, calibrate the model, and show visualizations comparing empirical vs. calibrated distributions.
 
-Improve DME
-Tweak a parameter
-Get more data
+---
 
-Results and Figures
-3D surfaces, let V0 vary wrt K and T, or sigma and T
-Heatmaps
-Scatterplot
-Histogram of prediction errors
-Boxplots of confidence intervals ?
+## File Guide
 
-Write paper
+### Main Files to Run
 
-Publishing code
-README, LICENSE, gitignore, etc.
-Documentation
-Code clarity
+- **`main.py`** - **START HERE**: Full pipeline that downloads data, calibrates the WVAG model, and displays results
+- **`test_dme.py`** - Test calibration on synthetic data (validates the method works correctly)
+- **`test_dme_2.py`** - Bootstrap validation to assess calibration uncertainty
+- **`test_simulator.py`** - Visualize sample paths from the WVAG process
+
+### Core Implementation
+
+- **`config.py`** - All hyperparameters, regularization settings, and data configuration
+- **`wvag.py`** - WVAG stochastic process simulator (GPU-accelerated with PyTorch)
+- **`dme_main.py`** - Main calibrator that fits joint distributions
+- **`dme_marginal.py`** - Per-dimension calibrator that fits marginal distributions
+
+### Utilities
+
+- **`data_scraping.py`** - Downloads equity data from Yahoo Finance
+- **`parameter_generator.py`** - Generates random WVAG parameters for testing
+- **`bootstrap.py`** - Bootstrap resampling for uncertainty quantification
+- **`utils.py`** - Error metrics and diagnostic functions
+- **`visualisation.py`** - Plotting functions for comparing distributions
+
+---
+
+## Configuration
+
+Edit `config.py` to customize:
+
+### Data Output Files
+
+- **`data_raw_indices.csv`** - Downloaded closing prices
+- **`data_logret_indices.csv`** - Log-returns (calibration input)
+
+### Key Settings
+
+- Equity symbols and date range
+- Simulation parameters (time horizon, sample size, batch size)
+- Regularization parameters (for calibration stability - see paper for details)
+
+---
+
+## Key Features
+
+- **GPU-accelerated**: Fast Monte Carlo simulation with PyTorch
+- **Real market data**: Automatic Yahoo Finance download and preprocessing
+- **Validation tools**: Bootstrap confidence intervals and visual diagnostics
+
+---
+
+## Technical Notes
+
+- **GPU recommended**: Code runs on CPU but much faster with CUDA-enabled GPU
+- **Data format**: DME expects `(n_samples, n_dimensions)`, simulator outputs `(n_dimensions, n_batch, n_timesteps)`
+- **Runtime**: Full calibration pipeline takes ~10-30 minutes depending on hardware
+
+---
+
+## Default Data
+
+5 U.S. equities, 10 years of daily data (~1,200 observations):
+
+- S&P 500 (`^GSPC`)
+- NASDAQ-100 (`NDX`)
+- Exxon Mobil (`XOM`)
+- JPMorgan Chase (`JPM`)
+- Walmart (`WMT`)
+
+Change symbols in `config.py` to use different equities.
+
+---
+
+## License
+
+[To be added]
+
+---
+
+## Author
+
+Kyle Lim
